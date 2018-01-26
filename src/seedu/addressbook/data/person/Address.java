@@ -8,11 +8,21 @@ import seedu.addressbook.data.exception.IllegalValueException;
  */
 public class Address {
 
-    public static final String EXAMPLE = "123, some street";
-    public static final String MESSAGE_ADDRESS_CONSTRAINTS = "Person addresses can be in any format";
-    public static final String ADDRESS_VALIDATION_REGEX = ".+";
+    public static final String EXAMPLE = "123, Some Street, #12-345, 123456";
+    public static final String MESSAGE_ADDRESS_CONSTRAINTS =
+            "Person addresses must be in the following format: Block, Street, Unit, PostalCode";
+    public static final String ADDRESS_VALIDATION_REGEX = "(?:([\\w\\d#\\- ]*), ?){3}([\\w\\d]*)";
+    public static final String ADDRESS_SPLIT_REGEX = ", ?";
 
-    public final String value;
+    private static final int ADDRESS_PART_BLOCK_INDEX = 0;
+    private static final int ADDRESS_PART_STREET_INDEX = 1;
+    private static final int ADDRESS_PART_UNIT_INDEX = 2;
+    private static final int ADDRESS_PART_POSTALCODE_INDEX = 3;
+
+    public final Block block;
+    public final Street street;
+    public final Unit unit;
+    public final PostalCode postalCode;
     private boolean isPrivate;
 
     /**
@@ -26,7 +36,12 @@ public class Address {
         if (!isValidAddress(trimmedAddress)) {
             throw new IllegalValueException(MESSAGE_ADDRESS_CONSTRAINTS);
         }
-        this.value = trimmedAddress;
+
+        String[] addressParts = trimmedAddress.split(ADDRESS_SPLIT_REGEX);
+        block = new Block(addressParts[ADDRESS_PART_BLOCK_INDEX]);
+        street = new Street(addressParts[ADDRESS_PART_STREET_INDEX]);
+        unit = new Unit(addressParts[ADDRESS_PART_UNIT_INDEX]);
+        postalCode = new PostalCode(addressParts[ADDRESS_PART_POSTALCODE_INDEX]);
     }
 
     /**
@@ -38,19 +53,25 @@ public class Address {
 
     @Override
     public String toString() {
-        return value;
+        return String.format("%s, %s, %s, %s", block, street, unit, postalCode);
     }
 
     @Override
     public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof Address // instanceof handles nulls
-                && this.value.equals(((Address) other).value)); // state check
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Address)) {
+            return false;
+        }
+        Address otherAddress = (Address) other;
+        return block.equals(otherAddress.block) && street.equals(otherAddress.street)
+                && unit.equals(otherAddress.unit) && postalCode.equals(otherAddress.postalCode);
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return toString().hashCode();
     }
 
     public boolean isPrivate() {
