@@ -11,7 +11,7 @@ public class Address {
     public static final String EXAMPLE = "123, Some Street, #12-345, 123456";
     public static final String MESSAGE_ADDRESS_CONSTRAINTS =
             "Person addresses must be in the following format: Block, Street, Unit, PostalCode";
-    public static final String ADDRESS_VALIDATION_REGEX = "(?:([\\w\\d#\\- ]*), ?){3}([\\w\\d]*)";
+    public static final String ADDRESS_VALIDATION_REGEX = "(?:([\\w\\d#\\- ]+), ?){3}([\\w\\d]+)";
     public static final String ADDRESS_SPLIT_REGEX = ", ?";
 
     private static final int ADDRESS_PART_BLOCK_INDEX = 0;
