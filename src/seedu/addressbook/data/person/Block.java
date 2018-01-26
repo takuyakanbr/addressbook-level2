@@ -6,9 +6,17 @@ package seedu.addressbook.data.person;
  */
 public class Block {
 
-    public final String block;
+    public final String value;
 
-    public Block(String block) {
-        this.block = block;
+    public Block(String value) {
+        this.value = value;
+    }
+
+    public boolean equals(Object other) {
+        return other instanceof Block && this.value.equals(((Block) other).value);
+    }
+
+    public String toString() {
+        return value;
     }
 }

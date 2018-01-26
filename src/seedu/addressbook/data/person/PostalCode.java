@@ -6,9 +6,17 @@ package seedu.addressbook.data.person;
  */
 public class PostalCode {
 
-    public final String postalCode;
+    public final String value;
 
-    public PostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public PostalCode(String value) {
+        this.value = value;
+    }
+
+    public boolean equals(Object other) {
+        return other instanceof PostalCode && this.value.equals(((PostalCode) other).value);
+    }
+
+    public String toString() {
+        return value;
     }
 }

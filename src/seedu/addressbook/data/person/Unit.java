@@ -6,9 +6,17 @@ package seedu.addressbook.data.person;
  */
 public class Unit {
 
-    public final String unit;
+    public final String value;
 
-    public Unit(String unit) {
-        this.unit = unit;
+    public Unit(String value) {
+        this.value = value;
+    }
+
+    public boolean equals(Object other) {
+        return other instanceof Unit && this.value.equals(((Unit) other).value);
+    }
+
+    public String toString() {
+        return value;
     }
 }
