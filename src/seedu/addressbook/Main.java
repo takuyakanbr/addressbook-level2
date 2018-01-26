@@ -13,7 +13,10 @@ import seedu.addressbook.parser.Parser;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.storage.StorageFile.InvalidStorageFilePathException;
 import seedu.addressbook.storage.StorageFile.StorageOperationException;
+import seedu.addressbook.storage.StorageFile.StorageWriteException;
 import seedu.addressbook.ui.TextUi;
+
+import static seedu.addressbook.common.Messages.MESSAGE_STORAGE_WRITE_ERROR;
 
 
 /**
@@ -111,6 +114,8 @@ public class Main {
             CommandResult result = command.execute();
             storage.save(addressBook);
             return result;
+        } catch (StorageWriteException swe) {
+            return new CommandResult(MESSAGE_STORAGE_WRITE_ERROR);
         } catch (Exception e) {
             ui.showToUser(e.getMessage());
             throw new RuntimeException(e);

@@ -15,4 +15,6 @@ public class Messages {
             "java seedu.addressbook.Main [STORAGE_FILE_PATH]";
     public static final String MESSAGE_WELCOME = "Welcome to your Address Book!";
     public static final String MESSAGE_USING_STORAGE_FILE = "Using storage file : %1$s";
+    public static final String MESSAGE_STORAGE_WRITE_ERROR = "An error occurred when saving to the storage file. "
+            + "Please ensure the file is not set to read-only or open in another program.";
 }
