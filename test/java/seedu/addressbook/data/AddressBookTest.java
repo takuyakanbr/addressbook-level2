@@ -118,6 +118,45 @@ public class AddressBookTest {
     }
 
     @Test
+    public void editPerson_personExists_removesNormally() throws Exception {
+        assertFalse(isTagObjectInAddressBookList(tagEconomist, defaultAddressBook));
+        assertFalse(isTagObjectInAddressBookList(tagPrizeWinner, defaultAddressBook));
+        defaultAddressBook.editPerson(aliceBetsy, new Phone("123", false), new Email("123@123.com", false),
+                new Address("123", false), new UniqueTagList(tagEconomist, tagPrizeWinner));
+
+        assertTrue(defaultAddressBook.containsPerson(aliceBetsy));
+        assertTrue(isTagObjectInAddressBookList(tagEconomist, defaultAddressBook));
+        assertTrue(isTagObjectInAddressBookList(tagPrizeWinner, defaultAddressBook));
+    }
+
+    @Test
+    public void editPerson_emptyAddressBook_throwsPersonNotFoundException() throws Exception {
+        thrown.expect(PersonNotFoundException.class);
+        emptyAddressBook.editPerson(charlieDouglas, new Phone("123", false),
+                new Email("123@123.com", false), new Address("123", false), new UniqueTagList());
+    }
+
+
+    @Test
+    public void editPerson_personNotExists_throwsPersonNotFoundException() throws Exception {
+        thrown.expect(PersonNotFoundException.class);
+        defaultAddressBook.editPerson(charlieDouglas, new Phone("123", false),
+                new Email("123@123.com", false), new Address("123", false), new UniqueTagList());
+    }
+
+    @Test
+    public void editPerson_personNotExists_tagNotAdded() throws Exception {
+        try {
+            emptyAddressBook.editPerson(aliceBetsy, new Phone("123", false), new Email("123@123.com", false),
+                    new Address("123", false), new UniqueTagList(tagMathematician, tagPrizeWinner));
+        } catch (PersonNotFoundException e) {
+            // ignored expected exception
+        }
+
+        assertFalse(isTagObjectInAddressBookList(tagPrizeWinner, defaultAddressBook));
+    }
+
+    @Test
     public void containsPerson() throws Exception {
         UniquePersonList personsWhoShouldBeIn = new UniquePersonList(aliceBetsy, bobChaplin);
         UniquePersonList personsWhoShouldNotBeIn = new UniquePersonList(charlieDouglas, davidElliot);

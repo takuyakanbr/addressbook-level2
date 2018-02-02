@@ -2,7 +2,11 @@ package seedu.addressbook.commands;
 
 import seedu.addressbook.common.Messages;
 import seedu.addressbook.data.exception.IllegalValueException;
-import seedu.addressbook.data.person.*;
+import seedu.addressbook.data.person.Address;
+import seedu.addressbook.data.person.Email;
+import seedu.addressbook.data.person.Phone;
+import seedu.addressbook.data.person.ReadOnlyPerson;
+import seedu.addressbook.data.person.UniquePersonList;
 import seedu.addressbook.data.tag.Tag;
 import seedu.addressbook.data.tag.UniqueTagList;
 
@@ -33,6 +37,7 @@ public class EditCommand extends Command {
                     + "(?<tagArguments>(?: t/[^/]+)*)"); // variable number of tags
 
     private final Phone newPhone;
+
     private final Email newEmail;
     private final Address newAddress;
     private final UniqueTagList newTags;
@@ -51,6 +56,22 @@ public class EditCommand extends Command {
         newEmail = new Email(email, isEmailPrivate);
         newAddress = new Address(address, isAddressPrivate);
         newTags = new UniqueTagList(tagSet);
+    }
+
+    public Phone getPhone() {
+        return newPhone;
+    }
+
+    public Email getEmail() {
+        return newEmail;
+    }
+
+    public Address getAddress() {
+        return newAddress;
+    }
+
+    public UniqueTagList getTags() {
+        return newTags;
     }
 
     @Override

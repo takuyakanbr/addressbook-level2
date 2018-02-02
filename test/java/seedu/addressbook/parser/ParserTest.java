@@ -16,6 +16,7 @@ import seedu.addressbook.commands.AddCommand;
 import seedu.addressbook.commands.ClearCommand;
 import seedu.addressbook.commands.Command;
 import seedu.addressbook.commands.DeleteCommand;
+import seedu.addressbook.commands.EditCommand;
 import seedu.addressbook.commands.ExitCommand;
 import seedu.addressbook.commands.FindCommand;
 import seedu.addressbook.commands.HelpCommand;
@@ -293,6 +294,89 @@ public class ParserTest {
             addCommand += " t/" + tag.tagName;
         }
         return addCommand;
+    }
+
+    /*
+     * Tests for edit person command ==============================================================================
+     */
+
+    @Test
+    public void parse_editCommandInvalidArgs_errorMessage() {
+        final String[] inputs = {
+                "edit",
+                "edit ",
+                "edit wrong args format",
+                // invalid index
+                String.format("edit abc $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+                // no phone prefix
+                String.format("edit 1 $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+                // no email prefix
+                String.format("edit 2 p/$s $s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+                // no address prefix
+                String.format("edit 3 p/$s e/$s $s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE)
+        };
+        final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
+        parseAndAssertIncorrectWithMessage(resultMessage, inputs);
+    }
+
+    @Test
+    public void parse_editCommandInvalidPersonDataInArgs_errorMessge() {
+        final String invalidPhoneArg = "p/not__numbers";
+        final String validPhoneArg = "p/" + Phone.EXAMPLE;
+        final String invalidEmailArg = "e/notAnEmail123";
+        final String validEmailArg = "e/" + Email.EXAMPLE;
+        final String invalidTagArg = "t/invalid_-[.tag";
+
+        // address can be any string, so no invalid address
+        final String editCommandFormatString = "edit 1 $s $s a/" + Address.EXAMPLE;
+
+        // test each incorrect person data field argument individually
+        final String[] inputs = {
+                // invalid phone
+                String.format(editCommandFormatString, invalidPhoneArg, validEmailArg),
+                // invalid email
+                String.format(editCommandFormatString, validPhoneArg, invalidEmailArg),
+                // invalid tag
+                String.format(editCommandFormatString, validPhoneArg, validEmailArg) + " " + invalidTagArg
+        };
+        for (String input : inputs) {
+            parseAndAssertCommandType(input, IncorrectCommand.class);
+        }
+    }
+
+    @Test
+    public void parse_editCommandValidPersonData_parsedCorrectly() {
+        final Person testPerson = generateTestPerson();
+        final String input = convertPersonToEditCommandString(testPerson);
+        final EditCommand result = parseAndAssertCommandType(input, EditCommand.class);
+        assertEquals(result.getPhone(), testPerson.getPhone());
+        assertEquals(result.getEmail(), testPerson.getEmail());
+        assertEquals(result.getAddress(), testPerson.getAddress());
+        assertEquals(result.getTags(), testPerson.getTags());
+    }
+
+    @Test
+    public void parse_editCommandDuplicateTags_merged() throws IllegalValueException {
+        final Person testPerson = generateTestPerson();
+        String input = convertPersonToEditCommandString(testPerson);
+        for (Tag tag : testPerson.getTags()) {
+            // create duplicates by doubling each tag
+            input += " t/" + tag.tagName;
+        }
+
+        final EditCommand result = parseAndAssertCommandType(input, EditCommand.class);
+        assertEquals(result.getTags(), testPerson.getTags());
+    }
+
+    private static String convertPersonToEditCommandString(ReadOnlyPerson person) {
+        String editCommand = "edit 1"
+                + (person.getPhone().isPrivate() ? " pp/" : " p/") + person.getPhone().value
+                + (person.getEmail().isPrivate() ? " pe/" : " e/") + person.getEmail().value
+                + (person.getAddress().isPrivate() ? " pa/" : " a/") + person.getAddress().value;
+        for (Tag tag : person.getTags()) {
+            editCommand += " t/" + tag.tagName;
+        }
+        return editCommand;
     }
 
     /*
