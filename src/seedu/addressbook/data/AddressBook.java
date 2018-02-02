@@ -5,9 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import seedu.addressbook.data.person.Person;
-import seedu.addressbook.data.person.ReadOnlyPerson;
-import seedu.addressbook.data.person.UniquePersonList;
+import seedu.addressbook.data.person.*;
 import seedu.addressbook.data.person.UniquePersonList.DuplicatePersonException;
 import seedu.addressbook.data.person.UniquePersonList.PersonNotFoundException;
 import seedu.addressbook.data.tag.Tag;
@@ -81,6 +79,21 @@ public class AddressBook {
     public void addPerson(Person toAdd) throws DuplicatePersonException {
         allPersons.add(toAdd);
         syncTagsWithMasterList(toAdd);
+    }
+
+    /**
+     * Edits the equivalent person from the address book. The phone, email,
+     * address, and tags of the person will be updated with the given values.
+     * @throws PersonNotFoundException if no such Person could be found.
+     */
+    public void editPerson(ReadOnlyPerson toEdit, Phone newPhone, Email newEmail,
+                           Address newAddress, UniqueTagList newTags) throws PersonNotFoundException {
+        Person person = allPersons.find(toEdit);
+        person.setPhone(newPhone);
+        person.setEmail(newEmail);
+        person.setAddress(newAddress);
+        person.setTags(newTags);
+        syncTagsWithMasterList(person);
     }
 
     /**

@@ -97,6 +97,20 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     /**
+     * Returns the person in the list that is equivalent to the person as the given argument.
+     * The {@link ReadOnlyPerson#isSamePerson} method is used for this comparison, which
+     * defines a weaker notion of equality.
+     */
+    public Person find(ReadOnlyPerson toFind) throws PersonNotFoundException {
+        for (Person p : internalList) {
+            if (p.isSamePerson(toFind)) {
+                return p;
+            }
+        }
+        throw new PersonNotFoundException();
+    }
+
+    /**
      * Adds a person to the list.
      *
      * @throws DuplicatePersonException if the person to add is a duplicate of an existing person in the list.
