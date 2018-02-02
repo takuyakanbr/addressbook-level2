@@ -25,7 +25,7 @@ public class EditCommand extends Command {
             + ": Edits the person identified by the index number used in the last person listing.\n"
             + "Parameters: INDEX [p]p/PHONE [p]e/EMAIL [p]a/ADDRESS [t/TAG]...\n"
             + "Example: " + COMMAND_WORD
-            +" 1 p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney";
+            + " 1 p/98765432 e/johnd@gmail.com a/311, Clementi Ave 2, #02-25 t/friends t/owesMoney";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
 

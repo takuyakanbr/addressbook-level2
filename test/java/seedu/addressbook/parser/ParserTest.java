@@ -303,17 +303,17 @@ public class ParserTest {
     @Test
     public void parse_editCommandInvalidArgs_errorMessage() {
         final String[] inputs = {
-                "edit",
-                "edit ",
-                "edit wrong args format",
-                // invalid index
-                String.format("edit abc $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
-                // no phone prefix
-                String.format("edit 1 $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
-                // no email prefix
-                String.format("edit 2 p/$s $s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
-                // no address prefix
-                String.format("edit 3 p/$s e/$s $s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE)
+            "edit",
+            "edit ",
+            "edit wrong args format",
+            // invalid index
+            String.format("edit abc $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+            // no phone prefix
+            String.format("edit 1 $s e/$s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+            // no email prefix
+            String.format("edit 2 p/$s $s a/$s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE),
+            // no address prefix
+            String.format("edit 3 p/$s e/$s $s", Phone.EXAMPLE, Email.EXAMPLE, Address.EXAMPLE)
         };
         final String resultMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, EditCommand.MESSAGE_USAGE);
         parseAndAssertIncorrectWithMessage(resultMessage, inputs);
