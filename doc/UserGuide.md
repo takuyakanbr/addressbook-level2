@@ -49,7 +49,7 @@ Examples:
 * `add John Doe p/98765432 e/johnd@gmail.com a/John street, block 123, #01-01`
 * `add Betsy Crowe pp/1234567 e/betsycrowe@gmail.com pa/Newgate Prison t/criminal t/friend`
 
-### Deleting a person : `edit`
+### Editing a person : `edit`
 Edits the specified person in the address book.<br>
 Format: `edit INDEX [p]p/PHONE_NUMBER [p]e/EMAIL [p]a/ADDRESS [t/TAG]...` 
 
